@@ -5,7 +5,7 @@ The purpose of the scheduling framework is to schedule user-defined tasks,
 support periodic scheduling and error retry,and support task persistence.
 ## ARCHITECTURE
 
-![img.png](img.png)
+![img.png](https://raw.githubusercontent.com/mosesyou/scheduler-demo/master/images/img.png)
 
 ### JOB
 
@@ -20,7 +20,7 @@ db table design
 |   interval  |  varchar  | job run interval  |
 |   created_time  |  datetime  | job created time |
 |   updated_time  |  datetime  | job updated time |
-|   lastFinished_time  |  datetime  | job last finished time  |
+|   last_finished_time  |  datetime  | job last finished time  |
 |   is_delete  |  tinyint  | logic delete flag  |
 
 ### WorkQueue
