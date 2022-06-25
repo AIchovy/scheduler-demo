@@ -5,7 +5,7 @@ import (
 
 	"github.com/avast/retry-go"
 
-	job2 "github.com/mosesyou/scheduler-demo/pkg/job"
+	"github.com/mosesyou/scheduler-demo/pkg/job"
 	"github.com/mosesyou/scheduler-demo/pkg/store"
 )
 
@@ -39,21 +39,21 @@ func (p *Processor) process() bool {
 	}
 
 	// maybe need type preCheck
-	job := item.(*job2.Job)
+	j := item.(*job.Job)
 	// job execute interval
-	interval := job.Interval
+	interval := j.Interval
 	// job retries count
-	retries := job.RetryTimes
+	retries := j.RetryTimes
 
-	_ = retry.Do(job.ExecuteFunc, retry.Attempts(retries+1))
+	_ = retry.Do(j.ExecuteFunc, retry.Attempts(retries+1))
 
-	if !job.RunOnce {
+	if !j.RunOnce {
 		// put job into workQueue again with interval
 		p.workQueue.AddAfter(item, interval)
 	}
 
-	job.LastFinishedTime = time.Now()
-	_ = p.updateJobMetadata(job)
+	j.LastFinishedTime = time.Now()
+	_ = p.updateJobMetadata(j)
 
 	return true
 }
@@ -64,16 +64,16 @@ func (p *Processor) worker() {
 	}
 }
 
-func (p *Processor) saveJobMetadata(job *job2.Job) error {
-	_, err := p.store.CreateJob(job)
+func (p *Processor) saveJobMetadata(j *job.Job) error {
+	_, err := p.store.CreateJob(j)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (p *Processor) updateJobMetadata(job *job2.Job) error {
-	if err := p.store.UpdateJob(job.ID, job); err != nil {
+func (p *Processor) updateJobMetadata(j *job.Job) error {
+	if err := p.store.UpdateJob(j.ID, j); err != nil {
 		return err
 	}
 	return nil
