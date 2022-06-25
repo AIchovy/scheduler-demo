@@ -5,7 +5,7 @@ The purpose of the scheduling framework is to schedule user-defined tasks,
 support periodic scheduling and error retry,and support task persistence.
 ## ARCHITECTURE
 
-![img.png](img.png)
+![img.png](https://raw.githubusercontent.com/mosesyou/scheduler-demo/master/images/img.png)
 
 ### JOB
 
